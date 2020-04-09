@@ -67,12 +67,14 @@ class SubjectWise extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    data[index]['Subject'],
-                    style: TextStyle(
-                        color: Colors.black38,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  ),
+                      data[index]['Subject'],
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
                   SizedBox(
                     height: 20,
                   ),

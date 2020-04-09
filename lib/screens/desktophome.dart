@@ -74,7 +74,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                             Image.asset('assets/user.png',
                                 height: 100, width: 100),
                             Spacer(),
-                            Text('Tushar ')
+                            Text(widget.data['name'])
                           ],
                         ),
                         height: 150,

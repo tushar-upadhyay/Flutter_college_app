@@ -114,14 +114,11 @@ class _ResultState extends State<Result> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   children: <Widget>[
-                    Hero(
-                      tag: 'image',
-                                          child: Image.asset(
+                    Image.asset(
                         'assets/rgpv_logo.png',
                         width: 100,
                         height: 100,
                       ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Text(
@@ -140,9 +137,7 @@ class _ResultState extends State<Result> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white),
-                child: Hero(
-                  tag: 'image',
-                                  child: Form(
+                child: Form(
                     key: _formkey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +148,7 @@ class _ResultState extends State<Result> {
                           child: DropdownButtonFormField(
                               validator: (value) {
                                 if (value == null) {
-                                  return "Enter Stream";
+                return "Enter Stream";
                                 }
                                 return null;
                               },
@@ -161,11 +156,11 @@ class _ResultState extends State<Result> {
                               value: value,
                               items: [
                                 DropdownMenuItem(
-                                    value: 0, child: Text('B.Tech')),
+                  value: 0, child: Text('B.Tech')),
                                 DropdownMenuItem(
-                                    value: 1, child: Text('M.Tech')),
+                  value: 1, child: Text('M.Tech')),
                                 DropdownMenuItem(
-                                    value: 2, child: Text('B.Pharma'))
+                  value: 2, child: Text('B.Pharma'))
                               ],
                               onChanged: (v) {
                                 setState(() => stream = v);
@@ -184,10 +179,10 @@ class _ResultState extends State<Result> {
                             onTap: () {
                               Timer(Duration(milliseconds: 500), () {
                                 _scrollcontroller.animateTo(
-                                    _scrollcontroller
-                                        .position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.decelerate);
+                  _scrollcontroller
+                      .position.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.decelerate);
                               });
                             },
                             onChanged: (value) {
@@ -214,10 +209,10 @@ class _ResultState extends State<Result> {
                             onTap: () {
                               Timer(Duration(milliseconds: 500), () {
                                 _scrollcontroller.animateTo(
-                                    _scrollcontroller
-                                        .position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.decelerate);
+                  _scrollcontroller
+                      .position.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.decelerate);
                               });
                             },
                             onChanged: (value) {
@@ -245,7 +240,6 @@ class _ResultState extends State<Result> {
                       ],
                     ),
                   ),
-                ),
               ),
             ],
           ),

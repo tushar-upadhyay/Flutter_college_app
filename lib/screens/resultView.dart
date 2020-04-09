@@ -26,13 +26,10 @@ class _ResultViewState extends State<ResultView> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Hero(
-                      tag: 'image',
-                      child: Image.asset(
-                        'assets/rgpv_logo.png',
-                        width: 100,
-                        height: 100,
-                      ),
+                    child: Image.asset(
+                      'assets/rgpv_logo.png',
+                      width: 100,
+                      height: 100,
                     ),
                   ),
                 ),

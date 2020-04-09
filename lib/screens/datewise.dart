@@ -245,9 +245,13 @@ class _DateWiseState extends State<DateWise> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            heading,
-            style: TextStyle(fontSize: 15),
+          Flexible(
+                      child: Text(
+              heading,
+              softWrap:true ,
+                // overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 15),
+            ),
           ),
           Text(
             value,
