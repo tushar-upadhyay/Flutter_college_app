@@ -13,8 +13,11 @@ This is the Full Stack College application with:
 </div>
 ### Important
 This Application is designed for my college students so it will require authentication but you can use the following credentials <br/>
+
 ### Accsoft Id - 11156823968 <br/>
+
 ### Password - test <br/>
+
 ## Installation
 
 Clone this Repo <br/>
