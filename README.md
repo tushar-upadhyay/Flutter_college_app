@@ -8,15 +8,18 @@ This is the Full Stack College application with:
  - Bunk Screen
  - Graph Analysis
  - Cool animations
+ <div align="center">
+<img align="center" src="https://i.ibb.co/x5hZ3jc/ss.png" alt="drawing" width="600"/>
+</div>
 ### Important
-This Application is designed for my college students so it will require authentication but you can use the following credentials <br/>
-Accsoft Id : 11156823968 <br/>
-Password : test <br/>
+This Application is designed for my college students so it will require authentication but you can use the following credentials
+Accsoft Id : 11156823968
+Password : test
 ## Installation
 
 Clone this Repo <br/>
 ```bash
-git clone https://github.com/tushar-upadhyay/Flutter_college_app.git
+git clone https://github.com/tushar-upadhyay/Flutter_college_app/](https://github.com/tushar-upadhyay/Flutter_college_app.git
 ```
 ## Android
 Run  (inside the cloned repo)
