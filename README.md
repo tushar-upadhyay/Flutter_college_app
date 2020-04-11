@@ -9,12 +9,12 @@ This is the Full Stack College application with:
  - Graph Analysis
  - Cool animations
  <div align="center">
-<img align="center" src="https://i.ibb.co/x5hZ3jc/ss.png" alt="drawing" width="600"/>
+<img align="center" src="https://i.ibb.co/x5hZ3jc/ss.png" alt="drawing" width="800"/>
 </div>
 ### Important
-This Application is designed for my college students so it will require authentication but you can use the following credentials
-Accsoft Id : 11156823968
-Password : test
+This Application is designed for my college students so it will require authentication but you can use the following credentials <br/>
+### Accsoft Id : 11156823968 <br/>
+### Password : test
 ## Installation
 
 Clone this Repo <br/>
