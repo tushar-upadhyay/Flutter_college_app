@@ -16,7 +16,7 @@ Password : test <br/>
 
 Clone this Repo <br/>
 ```bash
-git clone https://github.com/tushar-upadhyay/Flutter_college_app/](https://github.com/tushar-upadhyay/Flutter_college_app.git
+git clone https://github.com/tushar-upadhyay/Flutter_college_app.git
 ```
 ## Android
 Run  (inside the cloned repo)
