@@ -16,9 +16,9 @@ This is the Full Stack College application with:
 
 This Application is designed for my college students so it will require authentication but you can use the following credentials <br/>
 
-### Accsoft Id - 11156823968 <br/>
+### Accsoft Id - 123 <br/>
 
-### Password - test <br/>
+### Password - 123 <br/>
 
 ## Installation
 
