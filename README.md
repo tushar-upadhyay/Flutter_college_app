@@ -4,8 +4,9 @@
 This is the Full Stack College application with:
 
  - Attendance Monitoring
+ - Push Notifications
  - Result Analysis
- - Bunk Screen
+ - Attendance Goals
  - Graph Analysis
  - Cool animations
  <div align="center">
