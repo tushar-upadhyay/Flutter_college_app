@@ -9,12 +9,16 @@ void main ()async{
     dynamic username =   prefs.get('username');
     dynamic password =   prefs.get('password');
     dynamic lnctu =   prefs.get('lnctu');
+    dynamic branch = prefs.get('branch');
+    dynamic semester = prefs.get('semester');
     Map data = {
       'name':name,
       'imageUrl':imageUrl,
       'username':username,
       'password':password,
-      'lnctu':lnctu
+      'lnctu':lnctu,
+      'branch':branch,
+      'semester':semester,
     };
     runApp(
       MaterialApp(

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:demo/screens/bunk.dart';
 import 'package:demo/screens/profile.dart';
 import 'package:demo/screens/result.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './screens/home.dart';
 
 class Main extends StatefulWidget {
@@ -23,13 +25,26 @@ class _MainState extends State<Main> {
   void initState() {
     super.initState();
     screens_desktop.add(DesktopHome(data: widget.data,));
-    screens_desktop.add(Bunk());
+    screens_desktop.add(Bunk(data:widget.data));
     screens_desktop.add(Result());
     screens_mobile.add(Home(data: widget.data,));
-    screens_mobile.add(Bunk());
+    screens_mobile.add(Bunk(data:widget.data));
     screens_mobile.add(Result());
   }
-
+  void _launchURL(String id) async {
+    Map urls = {
+      'insta': 'https://instagram.com/tusharupadhyay_',
+      'github': 'https://github.com/tushar-upadhyay',
+      'mail': 'mailto:tusharrockpg@gmail.com',
+      'source': 'https://github.com/tushar-upadhyay/Flutter_college_app'
+    };
+    String url = urls[id];
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -44,9 +59,18 @@ class _MainState extends State<Main> {
         onTap: (e)=>setState(()=>_currentIndex=e),
         currentIndex: _currentIndex,
         items:[
-          BottomNavigationBarItem(icon: Icon(Icons.home),title:Text('',style: TextStyle(fontSize:0),)),
-          BottomNavigationBarItem(icon: Icon(Icons.all_inclusive),title: Text('', style:TextStyle(fontSize:0))),
-          BottomNavigationBarItem(icon: Icon(Icons.find_replace),title: Text('', style:TextStyle(fontSize:0)))
+           BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.home),
+                title: Text(
+                  '',
+                  style: TextStyle(fontSize: 0),
+                )),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.bullseye),
+                title: Text('', style: TextStyle(fontSize: 0))),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                title: Text('', style: TextStyle(fontSize: 0)))
         ],
       ),
       body:screens_mobile[_currentIndex]
@@ -79,43 +103,105 @@ class _MainState extends State<Main> {
       });},
     );
   }
-  Widget drawer(){
+  Widget drawer() {
     return Drawer(
-            elevation: 0.0,
-            child: SafeArea(
-                child: Container(
-              color: Colors.yellow[100],
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        ClipRRect(
+        elevation: 0.0,
+        child: SafeArea(
+            child: Container(
+          color: Colors.yellow[100],
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: Image.asset("assets/user.png", height: 100,
                           width: 100,fit: BoxFit.fill,),
                         )
-                      ],
-                    ),
-                  ),
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Text("My Profile"),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Profile()));
-                    },
-                    color: Colors.lightBlue,
-                    textColor: Colors.white,
-                    padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                    splashColor: Colors.grey,
-                  )
-                ],
+                  ],
+                ),
               ),
-            )));
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: Text("Profile"),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Profile(
+                            data: widget.data,
+                          )));
+                },
+                color: Colors.lightBlue,
+                textColor: Colors.white,
+                padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                splashColor: Colors.grey,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(
+                  thickness: 1.8,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Column(
+                  children: [
+                    
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                _launchURL('mail');
+                              },
+                              child: FaIcon(
+                                Icons.mail_outline,
+                                size: 32,
+                                color: Colors.deepOrange,
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                _launchURL('source');
+                              },
+                              child: FaIcon(
+                                FontAwesomeIcons.code,
+                                size: 32,
+                                color: Colors.black,
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                _launchURL('insta');
+                              },
+                              child: FaIcon(
+                                FontAwesomeIcons.instagram,
+                                size: 32,
+                                color: Colors.red,
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                _launchURL('github');
+                              },
+                              child: FaIcon(FontAwesomeIcons.github, size: 32))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom:5.0),
+                        child: Text('Made with ❤ By Tushar'))))
+            ],
+          ),
+        )));
   }
 }
 

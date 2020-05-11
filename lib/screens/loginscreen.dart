@@ -95,7 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
         'imageUrl': res['ImageUrl'],
         'username': username,
         'password': password,
-        'lnctu': lnctU
+        'lnctu': lnctU,
+        'branch':res['Branch'],
+        'semester':res['Semseter']
       };
       final SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('username',username);
@@ -103,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await preferences.setString('name', res['Name']);
       await preferences.setString('imageUrl',res['ImageUrl']);
       await preferences.setString('lnctu',lnctU);
+      await preferences.setString('semester', res['Semseter']);
+      await preferences.setString('branch', res['Branch']);
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Main(data: data)));
     } catch (e) {

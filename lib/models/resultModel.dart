@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 dynamic fetchResult(String enrollment, String semester, String stream)async {
-  String url = 'https://newlnct.herokuapp.com/api?rollno=$enrollment&semester=$semester';
+  String url = 'https://newlnct.herokuapp.com/api?rollno=$enrollment&semester=$semester&stream=$stream';
   try{
   dynamic res =  await http.get(url);
   res = await jsonDecode(res.body);
