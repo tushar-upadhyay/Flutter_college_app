@@ -42,10 +42,10 @@ flutter run
 ```
 
 ## Web
-To Run Inside your Browser you must have to  switch your Flutter  to dev branch
-To switch channel run (Where Flutter is Installed)
+To Run Inside your Browser you must have to  switch your Flutter  to beta
+To switch channel run 
 ```bash
-flutter channel dev
+flutter channel beta
 flutter upgrade
 flutter config --enable-web
 ```
