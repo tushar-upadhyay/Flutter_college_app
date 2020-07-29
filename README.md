@@ -10,7 +10,7 @@ This is the Full Stack College application with:
  - Graph Analysis
  - Cool animations
  
- <a href='https://play.google.com/store/apps/details?id=com.tushar.lnctattendance&hl=en_IN&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="50" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.tushar.lnctattendance&hl=en_IN&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="50" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
  <div align="center" width="100%">
  <div align="center" width="100%">
    <p align ="center">
