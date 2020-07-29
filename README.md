@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 # Flutter College App
 
