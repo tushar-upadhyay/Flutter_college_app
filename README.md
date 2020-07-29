@@ -9,6 +9,9 @@ This is the Full Stack College application with:
  - Attendance Goals
  - Graph Analysis
  - Cool animations
+ 
+ <a href='https://play.google.com/store/apps/details?id=com.tushar.lnctattendance&hl=en_IN&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="50" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+ <div align="center" width="100%">
  <div align="center" width="100%">
    <p align ="center">
     <img  src="https://lh3.googleusercontent.com/flPyv0hdaBP2F7WcEfJ0laH7G3tlXS8rzCsexX1_2h5ge5X-1oRHA7VRnE6wuYpZMK0=w1536-h754-rw"                  width="190" height="400" />
