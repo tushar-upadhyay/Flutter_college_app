@@ -2,22 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:demo/models/attendanceModel.dart';
+import 'package:demo/utils/months.dart';
 import 'package:demo/widgets/custom_circle.dart';
-
-final List months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
 
 class SpecificDate extends StatefulWidget {
   final Map data;
@@ -33,13 +19,17 @@ class _SpecificDateState extends State<SpecificDate>
   var month;
   int year;
   List data;
+  DateTime current_date = DateTime.now();
   double attendance = 0;
+  DateTime firstDate = DateTime(2019, 10);
+  DateTime selectedDate;
   int present;
   int totallectures;
   AnimationController _acontroller;
   final username;
   final password;
   final lnctu;
+  bool error = false;
   bool isLoading = true;
 
   _SpecificDateState(this.username, this.password, this.lnctu);
@@ -100,16 +90,30 @@ class _SpecificDateState extends State<SpecificDate>
   void load() async {
     try {
       dynamic res = await getdatewiseattendance(username, password, lnctu);
+      dynamic _firstDate = res[0]['date'];
+
+      _firstDate = _firstDate.split(' ');
+
+      var month_initial = (months.indexOf(_firstDate[1]) + 1).toString();
+      if (month_initial.length == 1) {
+        month_initial = '0' + month_initial;
+      }
+      _firstDate =
+          DateTime.parse('${_firstDate[2]}-$month_initial-${_firstDate[0]}');
 
       setState(() {
         data = res;
         attendance = res[res.length - 1]['percentage'];
         present = res[res.length - 1]['present'];
         totallectures = res[res.length - 1]['totalLectures'];
+        firstDate = _firstDate;
         isLoading = false;
       });
     } catch (err) {
-      print(err);
+      setState(() {
+        isLoading = false;
+        error = true;
+      });
     }
   }
 
@@ -119,28 +123,56 @@ class _SpecificDateState extends State<SpecificDate>
       tag: 'SpecificDate',
       child: Scaffold(
           appBar: AppBar(title: Text('Attendance Till Date')),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
-                    child: returnData(),
+          body: error
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Icon(
+                          Icons.cancel,
+                          color: Colors.red,
+                          size: 35,
+                        ),
+                      ),
+                      Text('Some Error Occured '),
+                      FlatButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isLoading = true;
+                              error = false;
+                            });
+                            load();
+                          },
+                          icon: Icon(Icons.refresh),
+                          label: Text('Refresh'))
+                    ],
                   ),
-                ),
-                Text('As of $day $month $year', style: TextStyle(fontSize: 30)),
-                // Align(alignment:Alignment.center,child: CustomCircle()),
-                Padding(
+                )
+              : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: showDate(context),
-                ),
-                // Text('Attendance till ${DateTime.now()}')
-              ],
-            ),
-          )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
+                          child: returnData(),
+                        ),
+                      ),
+                      Text('As of $day $month $year',
+                          style: TextStyle(fontSize: 30)),
+                      // Align(alignment:Alignment.center,child: CustomCircle()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: showDate(context),
+                      ),
+                      // Text('Attendance till ${DateTime.now()}')
+                    ],
+                  ),
+                )),
     );
   }
 
@@ -178,10 +210,11 @@ class _SpecificDateState extends State<SpecificDate>
           try {
             var response = await showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2015, 8),
-                lastDate: DateTime(2101));
+                initialDate: current_date,
+                firstDate: firstDate,
+                lastDate: DateTime(2030, 10));
             setState(() {
+              current_date = response == null ? current_date : response;
               day = response.day;
               month = months[response.month - 1];
               year = response.year;

@@ -11,11 +11,11 @@ This is the Full Stack College application with:
  - Cool animations
  <div align="center" width="100%">
    <p align ="center">
-    <img  src="https://i.ibb.co/tc3ks47/Screenshot-2020-05-08-11-48-21-644-com-tushar-lnctattendance.jpg"                  width="190" height="400" />
-   &ensp; <img src="https://i.ibb.co/gg8J2Ps/Screenshot-2020-05-08-11-45-25-113-com-tushar-lnctattendance.jpg" width="190" height="400"/>
-    &ensp; <img src="https://i.ibb.co/hWxkMKG/Screenshot-2020-05-08-11-48-16-779-com-tushar-lnctattendance.jpg" width="190" height="400" /> 
+    <img  src="https://i.ibb.co/tc3ks47/Screenshot-2020-05-08-11-48-21-644-com-tushar-demo.jpg"                  width="190" height="400" />
+   &ensp; <img src="https://i.ibb.co/gg8J2Ps/Screenshot-2020-05-08-11-45-25-113-com-tushar-demo.jpg" width="190" height="400"/>
+    &ensp; <img src="https://i.ibb.co/hWxkMKG/Screenshot-2020-05-08-11-48-16-779-com-tushar-demo.jpg" width="190" height="400" /> 
      &ensp;
-    <img  src="https://i.ibb.co/54Vr6nf/Screenshot-2020-05-08-11-48-05-595-com-tushar-lnctattendance.jpg" width="190" height="400"/>
+    <img  src="https://i.ibb.co/54Vr6nf/Screenshot-2020-05-08-11-48-05-595-com-tushar-demo.jpg" width="190" height="400"/>
    </p>
   </div>
 

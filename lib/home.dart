@@ -1,4 +1,3 @@
-
 import 'package:demo/screens/desktophome.dart';
 import 'package:flutter/material.dart';
 
@@ -17,20 +16,24 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
- 
   int selected = 0;
-  List<Widget> screens_desktop =[];
+  List<Widget> screens_desktop = [];
   List<Widget> screens_mobile = [];
   int _currentIndex = 0;
   void initState() {
     super.initState();
-    screens_desktop.add(DesktopHome(data: widget.data,));
-    screens_desktop.add(Bunk(data:widget.data));
+    screens_desktop.add(DesktopHome(
+      data: widget.data,
+    ));
+    screens_desktop.add(Bunk(data: widget.data));
     screens_desktop.add(Result());
-    screens_mobile.add(Home(data: widget.data,));
-    screens_mobile.add(Bunk(data:widget.data));
+    screens_mobile.add(Home(
+      data: widget.data,
+    ));
+    screens_mobile.add(Bunk(data: widget.data));
     screens_mobile.add(Result());
   }
+
   void _launchURL(String id) async {
     Map urls = {
       'insta': 'https://instagram.com/tusharupadhyay_',
@@ -45,70 +48,74 @@ class _MainState extends State<Main> {
       throw 'Could not launch $url';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    if(w<500){
-    return Scaffold(
-      drawer: drawer(),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 8.0,
-        backgroundColor: Color(0xFF6800f4),
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.white,
-        onTap: (e)=>setState(()=>_currentIndex=e),
-        currentIndex: _currentIndex,
-        items:[
-           BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.home),
-                title: Text(
-                  '',
-                  style: TextStyle(fontSize: 0),
-                )),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.bullseye),
-                title: Text('', style: TextStyle(fontSize: 0))),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                title: Text('', style: TextStyle(fontSize: 0)))
-        ],
-      ),
-      body:screens_mobile[_currentIndex]
-    );;
-
+    if (w < 500) {
+      return Scaffold(
+          drawer: drawer(),
+          bottomNavigationBar: BottomNavigationBar(
+            elevation: 8.0,
+            onTap: (e) => setState(() => _currentIndex = e),
+            currentIndex: _currentIndex,
+            items: [
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.home),
+                  title: Text(
+                    '',
+                    style: TextStyle(fontSize: 0),
+                  )),
+              BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.bullseye),
+                  title: Text('', style: TextStyle(fontSize: 0))),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text('', style: TextStyle(fontSize: 0)))
+            ],
+          ),
+          body: screens_mobile[_currentIndex]);
+      ;
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
-        iconTheme: IconThemeData(color: Colors.black),
-        actions: [
-          menuItem('Home',0),
-          menuItem('Bunk Manager',1),
-          Padding(
-            padding: const EdgeInsets.only(right:100),
-            child: menuItem('RGPV Results',2),
-          )
-        ],
-        title:Text('LNCT Attendance',style: TextStyle(color: Colors.black),)
-      ),
+          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            menuItem('Home', 0),
+            menuItem('Bunk Manager', 1),
+            Padding(
+              padding: const EdgeInsets.only(right: 100),
+              child: menuItem('RGPV Results', 2),
+            )
+          ],
+          title: Text(
+            'LNCT Attendance',
+          )),
       drawer: drawer(),
-      body:screens_desktop[selected],
+      body: screens_desktop[selected],
     );
   }
-  Widget menuItem(String text,int id){
+
+  Widget menuItem(String text, int id) {
     return FlatButton(
-      child: Text(text,style: TextStyle(fontWeight: id==selected?FontWeight.bold:FontWeight.normal),),
-      onPressed: (){setState(() {
-        selected = id;
-      });},
+      child: Text(
+        text,
+        style: TextStyle(
+            fontWeight: id == selected ? FontWeight.bold : FontWeight.normal),
+      ),
+      onPressed: () {
+        setState(() {
+          selected = id;
+        });
+      },
     );
   }
+
   Widget drawer() {
     return Drawer(
         elevation: 0.0,
         child: SafeArea(
             child: Container(
-          color: Colors.yellow[100],
           child: Column(
             children: <Widget>[
               Container(
@@ -117,10 +124,14 @@ class _MainState extends State<Main> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.asset("assets/user.png", height: 100,
-                          width: 100,fit: BoxFit.fill,),
-                        )
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.asset(
+                        "assets/user.png",
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.fill,
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -134,8 +145,6 @@ class _MainState extends State<Main> {
                             data: widget.data,
                           )));
                 },
-                color: Colors.lightBlue,
-                textColor: Colors.white,
                 padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
                 splashColor: Colors.grey,
               ),
@@ -149,7 +158,6 @@ class _MainState extends State<Main> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Column(
                   children: [
-                    
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Row(
@@ -197,14 +205,13 @@ class _MainState extends State<Main> {
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(bottom:5.0),
-                        child: Text('Made with ❤ By Tushar'))))
+                          padding: EdgeInsets.only(bottom: 5.0),
+                          child: Text('Made with ❤ By Tushar'))))
             ],
           ),
         )));
   }
 }
-
 
 // DefaultTabController(
 //       length: 3,
@@ -230,4 +237,3 @@ class _MainState extends State<Main> {
 //         ),
 //       ),
 //     )
-

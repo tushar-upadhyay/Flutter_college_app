@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/widgets/blockLoader.dart';
+
 class SubjectWise extends StatelessWidget {
   final Map data;
   SubjectWise({this.data});
@@ -11,21 +12,24 @@ class SubjectWise extends StatelessWidget {
       tag: 'subject',
       transitionOnUserGestures: true,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: ThemeData.dark().primaryColor,
         appBar: AppBar(title: Text('Subject Wise Analysis')),
         body: FutureBuilder(
           future:
               sunjectwise(data['username'], data['password'], data['lnctu']),
           builder: (context, snapshot) {
-            
-             if(snapshot.hasError){
-              return  Center(child: Icon(Icons.error,color: Colors.red,size: 60,));
+            if (snapshot.hasError) {
+              return Center(
+                  child: Icon(
+                Icons.error,
+                color: Colors.red,
+                size: 60,
+              ));
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return returnData(snapshot.data);
-            }
-             else {
-               return BlockLoader();
+            } else {
+              return BlockLoader();
               // return Center(child:SpinKitFadingFour(color: Colors.blueAccent));
             }
           },
@@ -61,20 +65,18 @@ class SubjectWise extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             padding: EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                color: ThemeData.dark().canvasColor,
+                borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
                   Text(
-                      data[index]['Subject'],
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
+                    data[index]['Subject'],
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
                   SizedBox(
                     height: 20,
                   ),

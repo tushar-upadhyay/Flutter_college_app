@@ -1,30 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:demo/models/routes.dart';
+
 class Item extends StatelessWidget {
   final int id;
   final Map data;
-  Item({this.id,this.data});
+  Item({this.id, this.data});
   @override
   Widget build(BuildContext context) {
     Routes route = routes[id];
     double h = MediaQuery.of(context).size.height;
     return Hero(
-      tag:route.name,
+      tag: route.name,
       child: Material(
         child: InkWell(
-          onTap:()=>route.navigate(context, data),
-          child:tiles(context,route.color,Icon(route.icon,color: route.color,size:  0.047 * h,),route.discription,route.name) ,
+          onTap: () => route.navigate(context, data),
+          child: tiles(
+              context,
+              route.color,
+              Icon(
+                route.icon,
+                color: route.color,
+                size: 0.047 * h,
+              ),
+              route.discription,
+              route.name),
         ),
       ),
     );
   }
-  Widget tiles(BuildContext context,Color color,Icon icon,String text,String tag, ) {
+
+  Widget tiles(
+    BuildContext context,
+    Color color,
+    Icon icon,
+    String text,
+    String tag,
+  ) {
     double h = MediaQuery.of(context).size.height;
     return Ink(
       height: 0.1763 * h,
       width: MediaQuery.of(context).size.width * 0.4,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -39,7 +54,7 @@ class Item extends StatelessWidget {
                 child: Text(
                   text,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 )),
           ),
           Align(

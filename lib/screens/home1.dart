@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/models/routes.dart';
 import 'package:demo/styles/clip.dart';
@@ -13,57 +12,45 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     return Container(
-      color: Color.fromRGBO(26, 28, 29, 1),
+      color: Color(0xffE2E3E7),
       child: Column(
         children: <Widget>[
           Stack(
             children: <Widget>[
-              // ClipPath(
-              //   clipper: CustomClip(),
-              //   child: Container(
-              //     height: MediaQuery.of(context).size.height * 0.42, //380
-              //     color: Color(0xff1b262c),
-              //     // decoration: BoxDecoration(
-              //     //     gradient: LinearGradient(
-              //     //         begin: Alignment.topLeft,
-              //     //         end: Alignment.bottomRight,
-              //     //         colors: <Color>[Color(0xFF101e3d), Colors.blueGrey])),
-              //   ),
-              // ),
+              ClipPath(
+                clipper: CustomClip(),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.42, //380
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[Colors.red, Colors.blue])),
+                ),
+              ),
               Padding(
-                padding: EdgeInsets.only(top: h * 0.083), //50
+                padding: EdgeInsets.only(top:50), //50
                 child: Column(
                   children: <Widget>[
                     Center(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: data['gender'] == "male"
-                            ? Image.asset(
-                                "assets/user.png",
-                                width: h * 0.13,
-                                height: h * 0.13,
-                              )
-                            : Image.asset(
-                                "assets/female.png",
-                                width: h * 0.13,
-                                height: h * 0.13,
-                              ),
+                        borderRadius: BorderRadius.circular(80),
+                        child: Image.asset('assets/user.png',height:100,width:100)
+                        // child: Image.network(data['imageUrl'],cacheWidth: 75,cacheHeight: 75,width: 75,height: 75,),
                       ),
                     ),
                     SizedBox(height: 15.0),
                     Text(data['name'],
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.0,
-                            color: Colors.white)),
+                            fontWeight: FontWeight.bold, fontSize: 15.0)),
                     SizedBox(height: 20.0),
                     Container(
                         height: h * 0.189,
                         decoration: BoxDecoration(
-                          color: ThemeData.dark().canvasColor,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Colors.white),
                         margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Padding(
                             padding: EdgeInsets.fromLTRB(0, h * 0.0294, 0, 0),
@@ -77,15 +64,15 @@ class Home extends StatelessWidget {
                                     children: <Widget>[
                                       Text('Total Lectures',
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontSize: h * 0.0211)),
                                       Text('Present',
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontSize: h * 0.0211)),
                                       Text('Percentage',
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontSize: h * 0.0211)),
                                     ]),
                                 AttendanceWidget(
@@ -97,8 +84,8 @@ class Home extends StatelessWidget {
                                   onPressed: () => _attendanceState.currentState
                                       .getAttendance(data['username'],
                                           data['password'], data['lnctu']),
-                                  color: Color.fromRGBO(138, 180, 248, 1),
-                                  textColor: Colors.black,
+                                  color: Colors.lightBlue,
+                                  textColor: Colors.white,
                                   padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
                                   splashColor: Colors.grey,
                                 )
@@ -108,7 +95,7 @@ class Home extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(15, h * 0.047, 0, 0), //20
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0), //20
                 child: IconButton(
                   icon: Icon(Icons.menu, color: Colors.white, size: 25),
                   onPressed: () {
@@ -118,20 +105,20 @@ class Home extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
           Flexible(
             child: ListView(
               children: <Widget>[
-                Wrap(
-                    spacing: MediaQuery.of(context).size.width * 0.08,
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.end,
-                    runSpacing: MediaQuery.of(context).size.width * 0.05,
-                    direction: Axis.horizontal,
-                    children: List.generate(
-                        routes.length, (int id) => Item(id: id, data: data)))
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Wrap(
+                      spacing: MediaQuery.of(context).size.width * 0.08,
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.end,
+                      runSpacing: MediaQuery.of(context).size.width * 0.08,
+                      direction: Axis.horizontal,
+                      children:List.generate(routes.length, (int id)=>Item(id:id,data:data))
+                      ),
+                )
               ],
             ),
           )
@@ -139,6 +126,7 @@ class Home extends StatelessWidget {
       ),
     );
   }
+  
 }
 
 class AttendanceWidget extends StatefulWidget {
@@ -154,7 +142,6 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
   var percentage;
 
   bool isLoading;
-  bool isError = false;
   @override
   void initState() {
     super.initState();
@@ -172,19 +159,15 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
       dynamic res = await attendance(username, password, lnctu);
 
       if (res['Percentage'] != null) {
-        setState(() {
+        this.setState(() {
           isLoading = false;
-          isError = false;
           present = res['Present '];
           totalLectures = res['Total Lectures'];
           percentage = res['Percentage'];
         });
       }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
+      isLoading = false;
     }
   }
 
@@ -199,12 +182,6 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
           ));
     }
-    if (isError) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 12),
-        child: Icon(Icons.cancel, color: Colors.red),
-      );
-    }
     if (present != null) {
       return Padding(
         padding: EdgeInsets.all(0.014 * h),
@@ -212,11 +189,12 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(totalLectures.toString(),
-                  style: TextStyle(fontSize: h * 0.0211)),
-              Text(present.toString(), style: TextStyle(fontSize: h * 0.0211)),
+              Text(present.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: h * 0.0211)),
+              Text(present.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: h * 0.0211)),
               Text(percentage.toString(),
-                  style: TextStyle(fontSize: h * 0.0211)),
+                  style: TextStyle(color: Colors.black, fontSize: h * 0.0211)),
             ]),
       );
     }

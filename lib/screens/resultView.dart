@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ResultView extends StatefulWidget {
@@ -13,13 +12,11 @@ class _ResultViewState extends State<ResultView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeData.dark().primaryColor,
       appBar: AppBar(title: Text('Result')),
       body: Scrollbar(
         child: SingleChildScrollView(
           child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.blue[100], Colors.blueAccent])),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -38,7 +35,7 @@ class _ResultViewState extends State<ResultView> {
                   padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
+                      color: ThemeData.dark().canvasColor),
                   child: Column(
                     children: [
                       Padding(
@@ -71,7 +68,7 @@ class _ResultViewState extends State<ResultView> {
                       width: 300,
                       padding: EdgeInsets.all(15),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: ThemeData.dark().canvasColor,
                           borderRadius: BorderRadius.circular(10)),
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -88,11 +85,11 @@ class _ResultViewState extends State<ResultView> {
                                       widget.data['subjects'][index]['subject'],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 20)),
+                                          fontSize: 17)),
                                   Text(widget.data['subjects'][index]['grade'],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 20)),
+                                          fontSize: 17)),
                                 ],
                               ),
                               Padding(

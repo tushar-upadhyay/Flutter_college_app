@@ -1,11 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/utils/methods.dart';
 import 'package:demo/widgets/custom_circle.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Bunk extends StatefulWidget {
   final Map data;
@@ -15,6 +16,7 @@ class Bunk extends StatefulWidget {
 }
 
 class _BunkState extends State<Bunk> {
+  SharedPreferences prefs;
   final _validator = GlobalKey<FormFieldState>();
   bool isLoading = true;
   double percentage;
@@ -33,14 +35,14 @@ class _BunkState extends State<Bunk> {
   @override
   void initState() {
     super.initState();
+
     load();
   }
 
   void load() async {
-      final SharedPreferences prefs = await  SharedPreferences.getInstance();
-    dynamic g =  prefs.getString('goal');
-    dynamic _autoRefresh =
-        ( prefs.getString('autoRefresh'));
+    prefs = await SharedPreferences.getInstance();
+    dynamic g = await prefs.get('goal');
+    dynamic _autoRefresh = (await prefs.get('autoRefresh'));
     autoRefresh = _autoRefresh == 'false' ? false : true;
     if (_autoRefresh == null) {
       autoRefresh = false;
@@ -63,7 +65,6 @@ class _BunkState extends State<Bunk> {
   }
 
   void updateAttendance() async {
-      final SharedPreferences prefs = await  SharedPreferences.getInstance();
     try {
       dynamic data = await attendance(widget.data['username'],
           widget.data['password'], widget.data['lnctu']);
@@ -74,11 +75,13 @@ class _BunkState extends State<Bunk> {
       dynamic _lecturesNeeded = data['LecturesNeeded'].toString();
       await prefs.setString('total', _total);
       await prefs.setString('present', _present);
-      await prefs.setString('percentage',_percentage);
-      await prefs.setString('daysNeeded',_daysNeeded);
-      await prefs.setString(
-          'lecturesNeeded',_lecturesNeeded);
-          Map tu = changeGoal(present_: double.parse(_present),total_:double.parse(_total),percentage_:double.parse(_percentage));
+      await prefs.setString('percentage', _percentage);
+      await prefs.setString('daysNeeded', _daysNeeded);
+      await prefs.setString('lecturesNeeded', _lecturesNeeded);
+      Map tu = changeGoal(
+          present_: double.parse(_present),
+          total_: double.parse(_total),
+          percentage_: double.parse(_percentage));
       setState(() {
         total = double.parse(_total);
         present = double.parse(_present);
@@ -96,16 +99,18 @@ class _BunkState extends State<Bunk> {
     }
   }
 
-  Map<String, dynamic> changeGoal({present_=null,total_=null,percentage_=null}) {
-    present_ = present!=null?present:present_;
-    total_ = total!=null?total:total_;
-    percentage_ = percentage!=null?percentage:percentage_;
+  Map<String, dynamic> changeGoal(
+      {present_ = null, total_ = null, percentage_ = null}) {
+    present_ = present != null ? present : present_;
+    total_ = total != null ? total : total_;
+    percentage_ = percentage != null ? percentage : percentage_;
     double _lecturesNeeded = (goal * total_ - present_) / (1 - goal);
     if (_lecturesNeeded < 0) _lecturesNeeded = 0;
     return {
       "lecturesNeeded": _lecturesNeeded.round(),
       "daysNeeded": _lecturesNeeded ~/ 7,
-      "freeDays": findFreeDays(g: goal, p: present_, per: percentage_, t: total_)
+      "freeDays":
+          findFreeDays(g: goal, p: present_, per: percentage_, t: total_)
     };
   }
 
@@ -124,41 +129,40 @@ class _BunkState extends State<Bunk> {
   }
 
   void t() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('percentage');
   }
 
   void getAttendance() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      dynamic _percentage =  prefs.get('percentage');
+      dynamic _percentage = await prefs.get('percentage');
       dynamic _total;
       dynamic _present;
       dynamic _daysNeeded;
       dynamic _lecturesNeeded;
       if (_percentage != null) {
-        _total =  prefs.get('total');
-        _present =  prefs.get('present');
-        _daysNeeded =  prefs.getString('daysNeeded');
-        _lecturesNeeded =
-             prefs.getString('lecturesNeeded');
+        _total = await prefs.get('total');
+        _present = await prefs.get('present');
+        _daysNeeded = await prefs.get('daysNeeded');
+        _lecturesNeeded = await prefs.get('lecturesNeeded');
       } else {
-        dynamic data = await attendance(widget.data['username'],widget.data['password'], widget.data['lnctu']);
-        print(data);
+        dynamic data = await attendance(widget.data['username'],
+            widget.data['password'], widget.data['lnctu']);
         _percentage = data['Percentage'].toString();
         _total = data['Total Lectures'].toString();
         _present = data['Present '].toString();
         _daysNeeded = data['DaysNeeded'].toString();
         _lecturesNeeded = data['LecturesNeeded'].toString();
-        await prefs.setString('total',  _total);
-        await prefs.setString('present',_present);
+        await prefs.setString('total', _total);
+        await prefs.setString('present', _present);
         await prefs.setString('percentage', _percentage);
         await prefs.setString('daysNeeded', _daysNeeded);
-        await prefs.setString(
-            'lecturesNeeded', _lecturesNeeded);
+        await prefs.setString('lecturesNeeded', _lecturesNeeded);
       }
-       Map tu = changeGoal(present_: double.parse(_present),total_:double.parse(_total),percentage_:double.parse(_percentage));
-       
+      Map tu = changeGoal(
+          present_: double.parse(_present),
+          total_: double.parse(_total),
+          percentage_: double.parse(_percentage));
+      print(tu);
       setState(() {
         isError = false;
         total = double.parse(_total);
@@ -170,7 +174,6 @@ class _BunkState extends State<Bunk> {
         isLoading = false;
       });
       if (autoRefresh) {
-        
         dynamic data = await attendance(widget.data['username'],
             widget.data['password'], widget.data['lnctu']);
         _percentage = data['Percentage'].toString();
@@ -179,12 +182,14 @@ class _BunkState extends State<Bunk> {
         _daysNeeded = data['DaysNeeded'].toString();
         _lecturesNeeded = data['LecturesNeeded'].toString();
         await prefs.setString('total', _total);
-      await prefs.setString('present', _present);
-      await prefs.setString('percentage',_percentage);
-      await prefs.setString('daysNeeded',_daysNeeded);
-        await prefs.setString(
-            'lecturesNeeded',  _lecturesNeeded);
-        Map tu = changeGoal(present_: double.parse(_present),total_:double.parse(_total),percentage_:double.parse(_percentage));
+        await prefs.setString('present', _present);
+        await prefs.setString('percentage', _percentage);
+        await prefs.setString('daysNeeded', _daysNeeded);
+        await prefs.setString('lecturesNeeded', _lecturesNeeded);
+        Map tu = changeGoal(
+            present_: double.parse(_present),
+            total_: double.parse(_total),
+            percentage_: double.parse(_percentage));
         setState(() {
           isError = false;
           total = double.parse(_total);
@@ -197,7 +202,6 @@ class _BunkState extends State<Bunk> {
         });
       }
     } catch (err) {
-      print(err);
       setState(() {
         isUpdating = false;
         isLoading = false;
@@ -241,12 +245,9 @@ class _BunkState extends State<Bunk> {
         child: Scaffold(
             floatingActionButton: RaisedButton(
               onPressed: () async {
-                final SharedPreferences prefs = await SharedPreferences.getInstance();
                 if (_validator.currentState.validate()) {
-                  await prefs.setString(
-                      'goal',goal.toString());
-                  await prefs.setString(
-                      'autoRefresh', autoRefresh.toString());
+                  await prefs.setString('goal', goal.toString());
+                  await prefs.setString('autoRefresh', autoRefresh.toString());
                   if (percentage != null) {
                     Map data = changeGoal();
                     print(data);
@@ -271,7 +272,7 @@ class _BunkState extends State<Bunk> {
                 child: Center(
                     child: FaIcon(
                   FontAwesomeIcons.arrowRight,
-                  color: Colors.white,
+                  // color: Colors.white,
                 )),
               ),
               color: Colors.deepOrange[400],
@@ -354,7 +355,7 @@ class _BunkState extends State<Bunk> {
       );
     }
     return Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: ThemeData.dark().primaryColor,
         appBar: AppBar(
           title: Text('Goal'),
           actions: <Widget>[
@@ -367,7 +368,6 @@ class _BunkState extends State<Bunk> {
                 label: Text('Refresh')),
             FlatButton.icon(
                 onPressed: () async {
-                  final SharedPreferences prefs = await SharedPreferences.getInstance();
                   await prefs.remove('goal');
                   setState(() {
                     goalIsThere = false;
@@ -387,17 +387,15 @@ class _BunkState extends State<Bunk> {
                 child: Container(
                     padding: EdgeInsets.symmetric(vertical: 32),
                     width: double.infinity,
-                    color: Colors.white,
-                    constraints: BoxConstraints(maxWidth:400),
+                    color: ThemeData.dark().canvasColor,
                     child: Center(
                       child: renderMsg(),
                     )),
               ),
               Container(
-                  constraints: BoxConstraints(maxWidth:400),
-                  decoration: BoxDecoration(color: Colors.white),
+                  color: ThemeData.dark().canvasColor,
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  height: MediaQuery.of(context).size.height*0.25,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -418,10 +416,10 @@ class _BunkState extends State<Bunk> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Container(
-                  
-                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.03),
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.03),
                   width: double.infinity,
-                  color: Colors.white,
+                  color: ThemeData.dark().canvasColor,
                   child: Center(
                       child: Column(
                     children: <Widget>[
@@ -438,7 +436,7 @@ class _BunkState extends State<Bunk> {
                 ),
               ),
               RaisedButton(
-                color: Colors.lightBlue,
+                color: ThemeData.dark().buttonColor,
                 onPressed: () async {
                   showDialog(
                       context: context,
@@ -486,8 +484,9 @@ class _BunkState extends State<Bunk> {
                             ));
                       });
                 },
-                child:
-                    Text('Change Goal', style: TextStyle(color: Colors.white)),
+                child: Text(
+                  'Change Goal',
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 32.0),
@@ -509,14 +508,13 @@ class _BunkState extends State<Bunk> {
   }
 
   Widget renderMsg() {
-    String text; 
-    if(daysNeeded - total>150){
+    String text;
+    if (daysNeeded - total > 150) {
       text = 'Ab Nahi hogi itni is semester me';
-    }
-    else{
-    text= daysNeeded == 0
-        ? 'Your Attendance is above ${(goal * 100.0).toStringAsFixed(0)}%'
-        : 'You need $lecturesNeeded lectures or $daysNeeded days for  ${(goal * 100).toStringAsFixed(0)}%';
+    } else {
+      text = daysNeeded == 0
+          ? 'Your Attendance is above ${(goal * 100.0).toStringAsFixed(0)}%'
+          : 'You need $lecturesNeeded lectures or $daysNeeded days for  ${(goal * 100).toStringAsFixed(0)}%';
     }
     FaIcon icon = daysNeeded == 0
         ? FaIcon(FontAwesomeIcons.check, color: Colors.green)
@@ -562,9 +560,10 @@ class _BunkState extends State<Bunk> {
     return Stack(children: [
       Align(
           alignment: Alignment.center,
-          child: CustomCircle(
-            angle: angle,
-            radius: MediaQuery.of(context).size.height*0.1
+          child: Container(
+            color: ThemeData.dark().canvasColor,
+            // child: CustomCircle(
+            //     angle: angle, radius: MediaQuery.of(context).size.height * 0.1),
           )),
       Align(
           alignment: Alignment.center,

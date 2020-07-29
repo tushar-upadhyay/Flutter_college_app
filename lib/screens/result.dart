@@ -52,25 +52,21 @@ class _ResultState extends State<Result> {
         showDialog(
             context: context,
             builder: (_) {
-              
-              return Theme(
-                data:ThemeData.dark(),
-                    child: CupertinoAlertDialog(
-                    title: Text(result['msg']),
-                    content: Icon(Icons.cancel, color: Colors.red),
-                    actions: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          focusNode2.unfocus();
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Check Again?',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
+              return CupertinoAlertDialog(
+                title: Text(result['msg']),
+                content: Icon(Icons.cancel, color: Colors.red),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      focusNode2.unfocus();
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Check Again?',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
               );
             });
       } else {
@@ -125,13 +121,11 @@ class _ResultState extends State<Result> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeData.dark().primaryColor,
       body: Stack(
         children: <Widget>[
           Container(
             height: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.blue[100], Colors.blueAccent])),
           ),
           Padding(
             padding: EdgeInsets.only(top: 32.0),
@@ -169,7 +163,7 @@ class _ResultState extends State<Result> {
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
+                            color: ThemeData.dark().canvasColor),
                         child: Form(
                           key: _formkey,
                           child: Column(
