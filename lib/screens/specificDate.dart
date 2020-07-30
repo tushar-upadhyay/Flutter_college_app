@@ -1,16 +1,15 @@
 import 'dart:math';
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/utils/months.dart';
 import 'package:demo/widgets/custom_circle.dart';
+import 'package:provider/provider.dart';
 
 class SpecificDate extends StatefulWidget {
-  final Map data;
-  const SpecificDate({Key key, this.data}) : super(key: key);
   @override
-  _SpecificDateState createState() =>
-      _SpecificDateState(data['username'], data['password'], data['lnctu']);
+  _SpecificDateState createState() => _SpecificDateState();
 }
 
 class _SpecificDateState extends State<SpecificDate>
@@ -26,13 +25,10 @@ class _SpecificDateState extends State<SpecificDate>
   int present;
   int totallectures;
   AnimationController _acontroller;
-  final username;
-  final password;
-  final lnctu;
+
   bool error = false;
   bool isLoading = true;
 
-  _SpecificDateState(this.username, this.password, this.lnctu);
   @override
   void initState() {
     super.initState();
@@ -89,9 +85,9 @@ class _SpecificDateState extends State<SpecificDate>
 
   void load() async {
     try {
-      dynamic res = await getdatewiseattendance(username, password, lnctu);
+      dynamic res = await Provider.of<LoginProvider>(context, listen: false)
+          .getdatewiseattendance();
       dynamic _firstDate = res[0]['date'];
-
       _firstDate = _firstDate.split(' ');
 
       var month_initial = (months.indexOf(_firstDate[1]) + 1).toString();

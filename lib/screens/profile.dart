@@ -1,16 +1,18 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:demo/screens/home.dart';
+import 'package:demo/screens/loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:demo/home.dart';
 import 'package:demo/auth.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
-  final Map data;
   SharedPreferences prefs;
-  Profile({this.data});
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF101e3d),
@@ -22,8 +24,7 @@ class Profile extends StatelessWidget {
                 await prefs.clear();
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => Auth(data: {'username': null})),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                     (route) => false);
               },
               icon: Icon(
@@ -53,7 +54,7 @@ class Profile extends StatelessWidget {
               right: 0,
               child: Column(
                 children: <Widget>[
-                  data['gender'] == "male"
+                  loginProvider.data['gender'] == "male"
                       ? Image.asset(
                           "assets/user.png",
                           width: 150,
@@ -77,7 +78,7 @@ class Profile extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 32),
-                            child: Text(data['name'],
+                            child: Text(loginProvider.data['name'],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -89,7 +90,7 @@ class Profile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Text(
-                                  'Gender : ${data['gender']}',
+                                  'Gender : ${loginProvider.data['gender']}',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -103,18 +104,17 @@ class Profile extends StatelessWidget {
                                   onPressed: () async {
                                     prefs =
                                         await SharedPreferences.getInstance();
-                                    String gender = data['gender'] == "male"
-                                        ? "female"
-                                        : "male";
+                                    String gender =
+                                        loginProvider.data['gender'] == "male"
+                                            ? "female"
+                                            : "male";
 
                                     prefs.setString('gender', gender);
-                                    data['gender'] = gender;
+                                    loginProvider.setGender(gender);
                                     Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Main(
-                                                  data: data,
-                                                )),
+                                            builder: (context) => Main()),
                                         (route) => false);
                                   },
                                   icon: FaIcon(
@@ -131,7 +131,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Text(
-                              'Semester ${data['semester']}',
+                              'Semester ${loginProvider.data['semester']}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 18,
@@ -141,7 +141,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Text(
-                              'Branch ${data['branch']}',
+                              'Branch ${loginProvider.data['branch']}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 18,
@@ -151,7 +151,9 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: Text(
-                              data['lnctu'] == 'true' ? 'LNCTU' : 'LNCT',
+                              loginProvider.data['lnctu'] == 'true'
+                                  ? 'LNCTU'
+                                  : 'LNCT',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,

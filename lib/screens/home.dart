@@ -1,17 +1,18 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/models/routes.dart';
-import 'package:demo/styles/clip.dart';
+// import 'package:demo/styles/clip.dart';
 import 'package:demo/widgets/homeScreenItem.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  final Map data;
-  Home({this.data});
   final GlobalKey<_AttendanceWidgetState> _attendanceState =
       new GlobalKey<_AttendanceWidgetState>();
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
     double h = MediaQuery.of(context).size.height;
     return Container(
       color: Color.fromRGBO(26, 28, 29, 1),
@@ -38,7 +39,7 @@ class Home extends StatelessWidget {
                     Center(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: data['gender'] == "male"
+                        child: loginProvider.data['gender'] == "male"
                             ? Image.asset(
                                 "assets/user.png",
                                 width: h * 0.13,
@@ -52,7 +53,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 15.0),
-                    Text(data['name'],
+                    Text(loginProvider.data['name'],
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15.0,
@@ -90,13 +91,12 @@ class Home extends StatelessWidget {
                                     ]),
                                 AttendanceWidget(
                                   key: _attendanceState,
-                                  data: data,
+                                  data: loginProvider.data,
                                 ),
                                 RaisedButton(
                                   child: Text("View Attendance"),
                                   onPressed: () => _attendanceState.currentState
-                                      .getAttendance(data['username'],
-                                          data['password'], data['lnctu']),
+                                      .getAttendance(loginProvider),
                                   color: Color.fromRGBO(138, 180, 248, 1),
                                   textColor: Colors.black,
                                   padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
@@ -130,8 +130,8 @@ class Home extends StatelessWidget {
                     crossAxisAlignment: WrapCrossAlignment.end,
                     runSpacing: MediaQuery.of(context).size.width * 0.05,
                     direction: Axis.horizontal,
-                    children: List.generate(
-                        routes.length, (int id) => Item(id: id, data: data)))
+                    children: List.generate(routes.length,
+                        (int id) => Item(id: id, data: loginProvider.data)))
               ],
             ),
           )
@@ -165,12 +165,10 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
     percentage = null;
   }
 
-  void getAttendance(String username, String password, String lnctu) async {
-    print(username);
+  void getAttendance(LoginProvider loginProvider) async {
     this.setState(() => isLoading = true);
     try {
-      dynamic res = await attendance(username, password, lnctu);
-
+      dynamic res = await loginProvider.attendance();
       if (res['Percentage'] != null) {
         setState(() {
           isLoading = false;

@@ -9,29 +9,23 @@ import 'package:url_launcher/url_launcher.dart';
 import './screens/home.dart';
 
 class Main extends StatefulWidget {
-  final Map data;
-  Main({Key key, this.data}) : super(key: key);
   @override
   _MainState createState() => _MainState();
 }
 
 class _MainState extends State<Main> {
   int selected = 0;
-  List<Widget> screens_desktop = [];
-  List<Widget> screens_mobile = [];
+  List<Widget> screensDesktop = [];
+  List<Widget> screensMobile = [];
   int _currentIndex = 0;
   void initState() {
     super.initState();
-    screens_desktop.add(DesktopHome(
-      data: widget.data,
-    ));
-    screens_desktop.add(Bunk(data: widget.data));
-    screens_desktop.add(Result());
-    screens_mobile.add(Home(
-      data: widget.data,
-    ));
-    screens_mobile.add(Bunk(data: widget.data));
-    screens_mobile.add(Result());
+    screensDesktop.add(DesktopHome());
+    screensDesktop.add(Bunk());
+    screensDesktop.add(Result());
+    screensMobile.add(Home());
+    screensMobile.add(Bunk());
+    screensMobile.add(Result());
   }
 
   void _launchURL(String id) async {
@@ -74,8 +68,7 @@ class _MainState extends State<Main> {
                   title: Text('', style: TextStyle(fontSize: 0)))
             ],
           ),
-          body: screens_mobile[_currentIndex]);
-      ;
+          body: screensMobile[_currentIndex]);
     }
     return Scaffold(
       appBar: AppBar(
@@ -92,7 +85,7 @@ class _MainState extends State<Main> {
             'LNCT Attendance',
           )),
       drawer: drawer(),
-      body: screens_desktop[selected],
+      body: screensDesktop[selected],
     );
   }
 
@@ -140,10 +133,8 @@ class _MainState extends State<Main> {
                     borderRadius: BorderRadius.circular(15.0)),
                 child: Text("Profile"),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Profile(
-                            data: widget.data,
-                          )));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Profile()));
                 },
                 padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
                 splashColor: Colors.grey,

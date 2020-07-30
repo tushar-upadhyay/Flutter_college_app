@@ -1,16 +1,13 @@
 import 'dart:math';
-
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/utils/methods.dart';
-import 'package:demo/widgets/custom_circle.dart';
+import 'package:provider/provider.dart';
+// import 'package:demo/widgets/custom_circle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Bunk extends StatefulWidget {
-  final Map data;
-  const Bunk({Key key, this.data}) : super(key: key);
   @override
   _BunkState createState() => _BunkState();
 }
@@ -66,8 +63,8 @@ class _BunkState extends State<Bunk> {
 
   void updateAttendance() async {
     try {
-      dynamic data = await attendance(widget.data['username'],
-          widget.data['password'], widget.data['lnctu']);
+      dynamic data =
+          await Provider.of<LoginProvider>(context, listen: false).attendance();
       dynamic _percentage = data['Percentage'].toString();
       dynamic _total = data['Total Lectures'].toString();
       dynamic _present = data['Present '].toString();
@@ -145,8 +142,8 @@ class _BunkState extends State<Bunk> {
         _daysNeeded = await prefs.get('daysNeeded');
         _lecturesNeeded = await prefs.get('lecturesNeeded');
       } else {
-        dynamic data = await attendance(widget.data['username'],
-            widget.data['password'], widget.data['lnctu']);
+        dynamic data = await Provider.of<LoginProvider>(context, listen: false)
+            .attendance();
         _percentage = data['Percentage'].toString();
         _total = data['Total Lectures'].toString();
         _present = data['Present '].toString();
@@ -174,8 +171,8 @@ class _BunkState extends State<Bunk> {
         isLoading = false;
       });
       if (autoRefresh) {
-        dynamic data = await attendance(widget.data['username'],
-            widget.data['password'], widget.data['lnctu']);
+        dynamic data = await Provider.of<LoginProvider>(context, listen: false)
+            .attendance();
         _percentage = data['Percentage'].toString();
         _total = data['Total Lectures'].toString();
         _present = data['Present '].toString();

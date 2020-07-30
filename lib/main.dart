@@ -1,5 +1,7 @@
 import 'package:demo/auth.dart';
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -23,8 +25,13 @@ void main() async {
     'semester': semester,
     'gender': gender
   };
-  runApp(MaterialApp(
-    theme: ThemeData.dark(),
-    home: Auth(data: data),
-  ));
+  runApp(
+    Provider(
+        create: (_) => LoginProvider(data),
+        child: MaterialApp(
+            theme: ThemeData.dark(),
+            home: Auth(
+              data: data,
+            ))),
+  );
 }

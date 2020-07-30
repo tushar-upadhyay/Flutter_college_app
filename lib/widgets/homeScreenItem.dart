@@ -13,7 +13,7 @@ class Item extends StatelessWidget {
       tag: route.name,
       child: Material(
         child: InkWell(
-          onTap: () => route.navigate(context, data),
+          onTap: () => route.navigate(context),
           child: tiles(
               context,
               route.color,

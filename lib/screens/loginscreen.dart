@@ -1,5 +1,7 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -73,43 +75,24 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isLoading == true) return null;
     this.setState(() => isLoading = true);
     password = Uri.encodeComponent(password).toString();
-    String url =
-        'https://newlnct.herokuapp.com/login?username=$username&password=$password&token&';
-    if (lnctu == true) {
-      url = url + 'lnctu';
-    }
-    print(url);
-    controller.text = username;
 
+    controller.text = username;
+    String _lnctu = lnctu ? 'true' : 'false';
     try {
-      dynamic res = await http.get(url);
-      res = await jsonDecode(res.body);
-      String lnctU = 'false';
-      if (lnctu == true) {
-        lnctU = 'true';
-      }
-      Map data = {
-        'name': res['Name'],
-        'imageUrl': res['ImageUrl'],
-        'username': username,
-        'password': password,
-        'lnctu': lnctU,
-        'branch': res['Branch'],
-        'semester': res['Semseter'],
-        'gender': res['Gender']
-      };
+      dynamic res = await Provider.of<LoginProvider>(context, listen: false)
+          .login(username, password, _lnctu);
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       await preferences.setString('username', username);
       await preferences.setString('password', password);
       await preferences.setString('name', res['Name']);
       await preferences.setString('imageUrl', res['ImageUrl']);
-      await preferences.setString('lnctu', lnctU);
+      await preferences.setString('lnctu', _lnctu);
       await preferences.setString('semester', res['Semseter']);
       await preferences.setString('branch', res['Branch']);
       await preferences.setString('gender', res['Gender']);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Main(data: data)));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Main()));
     } catch (e) {
       this.setState(() {
         isLoading = false;

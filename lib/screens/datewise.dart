@@ -1,23 +1,20 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/widgets/blockLoader.dart';
 import 'package:demo/utils/months.dart';
+import 'package:provider/provider.dart';
 
 class DateWise extends StatefulWidget {
-  final Map data;
-  DateWise({this.data});
   @override
-  _DateWiseState createState() =>
-      _DateWiseState(data['username'], data['password'], data['lnctu']);
+  _DateWiseState createState() => _DateWiseState();
 }
 
 class _DateWiseState extends State<DateWise> {
   List<String> litems = ["1", "2", "Third", "4"];
-  final username;
-  final password;
-  final lnctu;
+
   bool isLoading;
   dynamic data;
   dynamic initialData;
@@ -28,7 +25,6 @@ class _DateWiseState extends State<DateWise> {
   int fromIndex;
   int toEnd;
   List<DropdownMenuItem> dates = [];
-  _DateWiseState(this.username, this.password, this.lnctu);
   void search(DateTime date) {
     // String fromPre = from;
     // String toPre = to;
@@ -94,7 +90,8 @@ class _DateWiseState extends State<DateWise> {
   void load() async {
     try {
       try {
-        dynamic res = await datewise(username, password, lnctu);
+        dynamic res =
+            await Provider.of<LoginProvider>(context, listen: false).datewise();
         if (isDisposed) {
           return;
         }

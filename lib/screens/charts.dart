@@ -1,12 +1,12 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/utils/methods.dart';
+import 'package:provider/provider.dart';
 
 class Chart extends StatefulWidget {
-  final data;
-  Chart({this.data});
   @override
   _ChartState createState() => _ChartState();
 }
@@ -21,8 +21,8 @@ class _ChartState extends State<Chart> {
   bool loading = false;
   loadData() async {
     try {
-      dynamic res = await getdatewiseattendance(widget.data['username'],
-          widget.data['password'], widget.data['lnctu']);
+      dynamic res = await Provider.of<LoginProvider>(context, listen: false)
+          .getdatewiseattendance();
       datas = res;
       getMonthsArray(res);
       setState(() {

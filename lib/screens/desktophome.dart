@@ -1,11 +1,11 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/styles/clip.dart';
 import 'package:demo/widgets/homeScreenItem.dart';
+import 'package:provider/provider.dart';
 
 class DesktopHome extends StatefulWidget {
-  final Map data;
-  DesktopHome({this.data});
   @override
   _DesktopHomeState createState() => _DesktopHomeState();
 }
@@ -23,12 +23,10 @@ class _DesktopHomeState extends State<DesktopHome> {
     super.initState();
   }
 
-  void getAttendance(Map data) async {
+  void getAttendance(LoginProvider loginProvider) async {
     this.setState(() => isLoading = true);
     try {
-      dynamic res =
-          await attendance(data['username'], data['password'], data['lnctu']);
-      print(res);
+      dynamic res = await loginProvider.attendance();
       if (res['Percentage'] != null) {
         this.setState(() {
           isLoading = false;
@@ -44,6 +42,7 @@ class _DesktopHomeState extends State<DesktopHome> {
 
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
     double w = MediaQuery.of(context).size.width;
     return Container(
       color: Color(0xffE2E3E7),
@@ -74,7 +73,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                             Image.asset('assets/user.png',
                                 height: 100, width: 100),
                             Spacer(),
-                            Text(widget.data['name'])
+                            Text(loginProvider.data['name'])
                           ],
                         ),
                         height: 150,
@@ -106,7 +105,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                               color: Colors.grey,
                               child: Text('Get Attendance'),
                               onPressed: () {
-                                getAttendance(widget.data);
+                                getAttendance(loginProvider);
                               },
                             ),
                           )
@@ -160,22 +159,22 @@ class _DesktopHomeState extends State<DesktopHome> {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     width: 250,
                     height: 150,
-                    child: Item(data: widget.data, id: 0)),
+                    child: Item(data: loginProvider.data, id: 0)),
                 Container(
-                   padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     width: 250,
                     height: 150,
-                    child: Item(data: widget.data, id: 1)),
+                    child: Item(data: loginProvider.data, id: 1)),
                 Container(
-                   padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     width: 250,
                     height: 150,
-                    child: Item(data: widget.data, id: 2)),
+                    child: Item(data: loginProvider.data, id: 2)),
                 Container(
-                   padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     width: 250,
                     height: 150,
-                    child: Item(data: widget.data, id: 3))
+                    child: Item(data: loginProvider.data, id: 3))
               ],
             ),
           )

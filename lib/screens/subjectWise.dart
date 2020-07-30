@@ -1,10 +1,10 @@
+import 'package:demo/providers/loginProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/models/attendanceModel.dart';
 import 'package:demo/widgets/blockLoader.dart';
+import 'package:provider/provider.dart';
 
 class SubjectWise extends StatelessWidget {
-  final Map data;
-  SubjectWise({this.data});
   final List<String> litems = ["1", "2", "Third", "4"];
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SubjectWise extends StatelessWidget {
         appBar: AppBar(title: Text('Subject Wise Analysis')),
         body: FutureBuilder(
           future:
-              sunjectwise(data['username'], data['password'], data['lnctu']),
+              Provider.of<LoginProvider>(context, listen: false).sunjectwise(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
